@@ -2,17 +2,29 @@ from pyramid_restful.viewsets import APIViewSet
 from pyramid.response import Response
 
 
-class StocksAPIView(APIViewSet):
-    def list(self, request):
-        return Response(json={'message': 'listing all the stocks '}, status=200)
+class StockAPIViewset(APIViewSet):
+    def retrieve(self, request, id=None):
+        # http :6543/api/v1/stock/{id}/
 
-    def retrieve(self, request):
-        return Response(json={'message': 'listing one of the stock '}, status=200)
+        # Use the `id` to lookup that resource in the DB,
+        # Formulate a response and send it back to the client
+        return Response(
+            json={'message': 'Provided a single resource'},
+            status=200
+        )
+
+    def list(self, request):
+        return Response(
+            json={'message': 'Provided a list of stocks'},
+            status=200
+        )
 
     def create(self, request):
-        return Response(json={'message': 'Created the stocks '}, status=201)
+        import pdb; pdb.set_trace()
+        return Response(
+            json={'message': 'Created a new resource'},
+            status=201
+        )
 
-    def destroy(self, request):
-        return Response(json={'message': 'Deleted the record '}, status=204)
-
-    
+    def destroy(self, request, id=None):
+        return Response(status=204)

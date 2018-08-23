@@ -2,7 +2,11 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 
-@view_config(route_name='home', renderer='json', request_method='GET')
+@view_config(
+    route_name='home',
+    renderer='json',
+    request_method='GET'
+    )
 def home_view(request):
     '''Function dislpays instruction at the home view at the home dir
     '''
@@ -16,5 +20,5 @@ def home_view(request):
     GET /api/v1/company/{symbol} - for retrieving company detail from 3rd party API, where `{symbol}` is variable
     """
 
-    return Response(body=message, status=200)
+    return Response(body=message, content_type='text/plain', status=200)
     
