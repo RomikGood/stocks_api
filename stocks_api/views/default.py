@@ -1,33 +1,20 @@
 from pyramid.response import Response
 from pyramid.view import view_config
 
-from sqlalchemy.exc import DBAPIError
 
-from ..models import MyModel
+@view_config(route_name='home', renderer='json', request_method='GET')
+def home_view(request):
+    '''Function dislpays instruction at the home view at the home dir
+    '''
+    message = """
+    GET / - the base API route
+    POST /api/v1/auth/ - for registering a new account and signing up
+    GET /api/v1/portfolio/{id}/ - for retrieving a user's portfolio
+    POST /api/v1/stock/ - for creating a new company record
+    GET /api/v1/stock/{id}/ - for retrieving a companies information
+    DELETE /api/v1/stock/{id} - for deleting a company record
+    GET /api/v1/company/{symbol} - for retrieving company detail from 3rd party API, where `{symbol}` is variable
+    """
 
-
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
-    try:
-        query = request.dbsession.query(MyModel)
-        one = query.filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'stocks_api'}
-
-
-db_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_stocks_api_db" script
-    to initialize your database tables.  Check your virtual
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
+    return Response(body=message, status=200)
+    
