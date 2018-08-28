@@ -20,7 +20,7 @@ class StockAPIViewset(APIViewSet):
         )
 
     def create(self, request):
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         return Response(
             json={'message': 'Created a new resource'},
             status=201
