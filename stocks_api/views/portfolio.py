@@ -8,8 +8,8 @@ import requests
 import json
 
 
-@view_config(route_name='lookup', renderer='json', request_method='GET')
-def lookup(request):
+@view_config(route_name='company', renderer='json', request_method='GET')
+def company(request):
     """
     """
     url = 'https://api.iextrading.com/1.0/stock/{}/company'.format(
@@ -137,19 +137,24 @@ class StockAPIView(APIViewSet):
         return Response(status=204)
 
 
-class CompanyAPIView(APIViewSet):
-    def retrieve(self, request, id=None):
-        # http :6543/api/v1/company/{id}/
-
-        # Use the `id` to lookup that resource in the DB,
-        # Formulate a response and send it back to the client
-        return Response(
-            json={'message': 'Provided a single resource'},
-            status=200
-        )
+# class CompanyAPIView(APIViewSet):
+#     def retrieve(self, request, id=None):
+    
 
 
-    # Just an example
-    # def list(self, request):
-    #     # http :6543/api/v1/company/
-    #     pass
+
+
+#         http :6543/api/v1/company/{id}/
+
+#         Use the `id` to lookup that resource in the DB,
+#         Formulate a response and send it back to the client
+#         return Response(
+#             json={'message': 'Provided a single resource'},
+#             status=200
+#         )
+
+
+#     Just an example
+#     def list(self, request):
+#         # http :6543/api/v1/company/
+#         pass
