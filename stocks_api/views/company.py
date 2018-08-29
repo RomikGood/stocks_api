@@ -2,7 +2,7 @@ from pyramid_restful.viewsets import APIViewSet
 from pyramid.response import Response
 
 
-class CompanyAPIViewset(APIViewSet):
+class CompanyAPIView(APIViewSet):
     def retrieve(self, request, id=None):
         # http :6543/api/v1/company/{id}/
 
