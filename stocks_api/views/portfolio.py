@@ -89,7 +89,7 @@ class StockAPIView(APIViewSet):
         except json.JSONDecodeError as e:
             return Response(json=e.msg, status=400)
 
-        if 'name' not in kwargs:
+        if 'symbol' not in kwargs:
             return Response(json='Expected value; symbol')
 
         try:

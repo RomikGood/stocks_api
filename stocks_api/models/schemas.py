@@ -1,8 +1,10 @@
 from marshmallow_sqlalchemy import ModelSchema
 from marshmallow_sqlalchemy.fields import fields
-from . import Portfolio, Stock, Account, AccountRole
-# from .portfolio import Portfolio
-# from .stock import Stock
+# from . import Portfolio, Stock, Account, AccountRole
+from .portfolio import Portfolio
+from .stock import Stock
+from .role import AccountRole
+from .account import Account
 
 
 class AccountRoleScheme(ModelSchema):
@@ -25,4 +27,3 @@ class PortfolioSchema(ModelSchema):
 class StockSchema(ModelSchema):
     class Meta:
         model = Stock
-        
