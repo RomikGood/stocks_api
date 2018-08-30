@@ -5,11 +5,11 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .mymodel import MyModel  # flake8: noqa
-from .portfolio import Portfolio
-from .associations import roles_association
-from .account import Account
-from .stock import Stock
+from .weather_location import WeatherLocation  # flake8: noqa
+from .associations import roles_association  # flake8: noqa
+from .role import AccountRole  # flake8: noqa
+from .account import Account  # flake8: noqa
+
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
 configure_mappers()
@@ -28,23 +28,17 @@ def get_session_factory(engine):
 def get_tm_session(session_factory, transaction_manager):
     """
     Get a ``sqlalchemy.orm.Session`` instance backed by a transaction.
-
     This function will hook the session to the transaction manager which
     will take care of committing any changes.
-
     - When using pyramid_tm it will automatically be committed or aborted
       depending on whether an exception is raised.
-
     - When using scripts you should wrap the session in a manager yourself.
       For example::
-
           import transaction
-
           engine = get_engine(settings)
           session_factory = get_session_factory(engine)
           with transaction.manager:
               dbsession = get_tm_session(session_factory, transaction.manager)
-
     """
     dbsession = session_factory()
     zope.sqlalchemy.register(
@@ -55,9 +49,7 @@ def get_tm_session(session_factory, transaction_manager):
 def includeme(config):
     """
     Initialize the model for a Pyramid app.
-
-    Activate this setup using ``config.include('stocks_api.models')``.
-
+    Activate this setup using ``config.include('weather_api.models')``.
     """
     settings = config.get_settings()
     settings['tm.manager_hook'] = 'pyramid_tm.explicit_manager'
