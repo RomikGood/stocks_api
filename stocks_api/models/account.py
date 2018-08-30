@@ -1,8 +1,9 @@
 from .portfolio import Portfolio
+from .associations import roles_association
 from sqlalchemy.orm import relationship
 from sqlalchemy.exc import DBAPIError
 from datetime import datetime as dt
-from .associations import roles_association
+from cryptacular import bcrypt
 from .role import AccountRole
 from .meta import Base
 
@@ -15,12 +16,15 @@ from sqlalchemy import (
 )
 
 
+manager = bcrypt.BCRYPTPasswordManager()
+
+
 class Account(Base):
     __tablename__ = 'accounts'
     id = Column(Integer, primary_key=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
-    # location = relationship(Portfolio, back_populates='account')
+    location = relationship(Portfolio, back_populates='account')
     roles = relationship(AccountRole, secondary=roles_association, back_populates='accounts')
 
     date_created = Column(DateTime, default=dt.now())
@@ -28,7 +32,8 @@ class Account(Base):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = password  # We will complete the password hashing tomorrow. THIS IS UNSAFE!
+        # NOTE: Update the password management
+        self.password = manager.encode(password, 10)
 
     @classmethod
     def new(cls, request, email=None, password=None):
@@ -52,7 +57,25 @@ class Account(Base):
             cls.email == email).one_or_none()
 
     @classmethod
+    def one(cls, request, email=None):
+        return request.dbsession.query(cls).filter(
+            cls.email == email).one_or_none()
+
+    @classmethod
     def check_credentials(cls, request=None, email=None, password=None):
         """We will complete this method tomorrow with authentication
         """
-        pass
+        if request.dbsession is None:
+            raise DBAPIError
+
+        try:
+            query = request.dbsession.query(cls).filter(
+                cls.email == email).one_or_none()
+        except DBAPIError:
+            raise DBAPIError
+
+        if query is not None:
+            if manager.check(query.password, password):
+                return query
+
+        return None

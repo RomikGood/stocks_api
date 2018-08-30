@@ -9,21 +9,24 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'marshmallow_sqlalchemy',  # Custom
+    # 'cryptacular',  # custom
+    'marshmallow-sqlalchemy',  # custom
     'plaster_pastedeploy',
-    'psycopg2-binary',  # Custom
+    'psycopg2-binary',  # custom
     'pyramid >= 1.9a',
     'pyramid_debugtoolbar',
     'pyramid_jinja2',
-    'pyramid-restful-framework',  # Custom
+    'pyramid_jwt',  # custom
+    'pyramid-restful-framework',  # custom
     'pyramid_retry',
     'pyramid_tm',
-    'requests',  # Custom
+    'requests',  # custom
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
     'waitress',
 ]
+
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
