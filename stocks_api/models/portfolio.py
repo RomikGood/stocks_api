@@ -25,8 +25,8 @@ class Portfolio(Base):
         if request.dbsession is None:
             raise DBAPIError
 
-        location = cls(**kwargs)
-        request.dbsession.add(location)
+        portfolio = cls(**kwargs)
+        request.dbsession.add(portfolio)
 
         return request.dbsession.query(cls).filter(
             cls.symbol == kwargs['name']).one_or_none()

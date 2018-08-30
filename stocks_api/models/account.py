@@ -20,7 +20,7 @@ class Account(Base):
     id = Column(Integer, primary_key=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
-    location = relationship(Portfolio, back_populates='account')
+    # location = relationship(Portfolio, back_populates='account')
     roles = relationship(AccountRole, secondary=roles_association, back_populates='accounts')
 
     date_created = Column(DateTime, default=dt.now())
