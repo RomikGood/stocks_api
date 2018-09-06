@@ -8,8 +8,8 @@ import requests
 import json
 
 
-@view_config(route_name='company', renderer='json', request_method='GET')
-def company(request):
+@view_config(route_name='loopup', renderer='json', request_method='GET')
+def lookup(request):
     """
     """
     url = 'https://api.iextrading.com/1.0/stock/{}/company'.format(
