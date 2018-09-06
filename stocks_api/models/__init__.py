@@ -5,7 +5,7 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .weather_location import WeatherLocation  # flake8: noqa
+from .portfolio import Portfolio  # flake8: noqa
 from .associations import roles_association  # flake8: noqa
 from .role import AccountRole  # flake8: noqa
 from .account import Account  # flake8: noqa

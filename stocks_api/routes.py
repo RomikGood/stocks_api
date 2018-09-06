@@ -12,7 +12,7 @@ from .views.auth import AuthAPIView
 def includeme(config):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
-    config.add_route('company', '/api/v1/company/{symbol}')
+    config.add_route('lookup', '/api/v1/lookup/{symbol}')
 
     router = ViewSetRouter(config, trailing_slash=False)
 
