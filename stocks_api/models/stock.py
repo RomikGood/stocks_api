@@ -25,8 +25,10 @@ class Stock(Base):
     CEO = Column(Text)
     issueType = Column(Text)
     sector = Column(Text)
+    portfolio = relationship('Portfolio', back_populates='stock')
     
-    
+    portfolio_id = Column(Integer, ForeignKey('portfolio.id'), nullable = False)
+
     date_created = Column(DateTime, default=dt.now())
     date_updated = Column(DateTime, default=dt.now(), onupdate=dt.now())
 
@@ -35,8 +37,8 @@ class Stock(Base):
         if request.dbsession is None:
             raise DBAPIError
 
-        location = cls(**kwargs)
-        request.dbsession.add(location)
+        stock = cls(**kwargs)
+        request.dbsession.add(stock)
 
         return request.dbsession.query(cls).filter(
             cls.symbol == kwargs['symbol']).one_or_none()

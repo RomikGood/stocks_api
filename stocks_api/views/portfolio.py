@@ -8,25 +8,23 @@ import requests
 import json
 
 
-@view_config(route_name='loopup', renderer='json', request_method='GET')
-def lookup(request):
-    """
-    """
-    url = 'https://api.iextrading.com/1.0/stock/{}/company'.format(
-        request.matchdict['symbol']
-    )
-    # time_url = 'https://api.iextrading.com/1.0/stock/{}}/time-series'.format(
-    #     request.matchdict['time']
-    # )
-    response = requests.get(url)
+# @view_config(route_name='lookup', renderer='json', request_method='GET')
+# def lookup(request):
+#     """
+#     """
+#     url = 'https://api.iextrading.com/1.0/stock/{}/company'.format(
+#         request.matchdict['symbol']
+#     )
+#     # 
+#     # )
+#     response = requests.get(url)
 
-    return Response(json=response.json(), status=200)
+#     return Response(json=response.json(), status=200)
 
 
 class PortfolioAPIView(APIViewSet):
     def create(self, request):
-        """
-        """
+
         try:
             kwargs = json.loads(request.body)
         except json.JSONDecodeError as e:
@@ -81,11 +79,17 @@ class PortfolioAPIView(APIViewSet):
 
 
 class StockAPIView(APIViewSet):
-    def create(self, request):
+    def create(self, request, portfolio_id=None):
         """
         """
         try:
-            kwargs = json.loads(request.body)
+            symbol = json.loads(request.body)['symbol']
+            url = 'https://api.iextrading.com/1.0/stock/{}/company'.format(symbol)
+            response = requests.get(url)
+            # kwargs = json.loads(request.body)
+            kwargs = response.json()
+            del kwargs['tags']
+
         except json.JSONDecodeError as e:
             return Response(json=e.msg, status=400)
 
@@ -93,6 +97,7 @@ class StockAPIView(APIViewSet):
             return Response(json='Expected value; symbol')
 
         try:
+            kwargs['portfolio_id'] = portfolio_id
             stock = Stock.new(request=request, **kwargs)
         except IntegrityError:
             return Response(json='Conflict. symbol code already exists.', status=409)
