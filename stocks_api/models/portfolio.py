@@ -1,3 +1,4 @@
+from .stock import Stock
 from sqlalchemy.orm import relationship  # Import
 from sqlalchemy.exc import DBAPIError
 from datetime import datetime as dt
@@ -17,8 +18,11 @@ class Portfolio(Base):
     __tablename__ = 'portfolio'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
+    account_id = Column(Integer, ForeignKey('accounts.id'))
     date_created = Column(DateTime, default=dt.now())
     date_updated = Column(DateTime, default=dt.now(), onupdate=dt.now())
+    account = relationship('Account', back_populates='portfolio')
+    stock = relationship(Stock, back_populates='portfolio')
 
     @classmethod
     def new(cls, request, **kwargs):
@@ -29,7 +33,7 @@ class Portfolio(Base):
         request.dbsession.add(portfolio)
 
         return request.dbsession.query(cls).filter(
-            cls.symbol == kwargs['name']).one_or_none()
+            cls.name == kwargs['name']).one_or_none()
 
     @classmethod
     def one(cls, request, pk=None):

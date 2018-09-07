@@ -9,6 +9,7 @@ from .portfolio import Portfolio  # flake8: noqa
 from .associations import roles_association  # flake8: noqa
 from .role import AccountRole  # flake8: noqa
 from .account import Account  # flake8: noqa
+from .stock import Stock
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
